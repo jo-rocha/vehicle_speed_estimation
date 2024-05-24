@@ -5,7 +5,7 @@ import os
 import matplotlib.pyplot as plt
 
 def calibrate(showPics = True):
-    images = glob.glob('vehicle_speed_estimation/imgs/calibration/*.jpeg')
+    images = glob.glob('imgs/calibration3/*.jpeg')
     cboardSize = (7, 7)#rows and columns
     framesize = (1600, 1200)
     criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -43,23 +43,26 @@ def calibrate(showPics = True):
 
     return camMatrix, distCoeff
 
-def removeDistortion(camMatrix, distCoeff):
-    img = cv.imread('vehicle_speed_estimation/imgs/undistort.jpeg')
+def removeDistortion(camMatrix, distCoeff, imgPath, showpics=True):
+    img = cv.imread(imgPath)
     height, width = img.shape[:2]
     camMatrixNew, roi = cv.getOptimalNewCameraMatrix(camMatrix, distCoeff, (width, height), 0, (width, height))
     imgUndist = cv.undistort(img, camMatrix, distCoeff, None, camMatrixNew)
-
     #draw line to see distortion changes
-    plt.figure()
-    plt.subplot(121)
-    plt.imshow(img)
-    plt.subplot(122)
-    plt.imshow(imgUndist)
-    plt.show()
+    if showpics == True:
+        plt.figure()
+        plt.subplot(121)
+        plt.imshow(img)
+        plt.subplot(122)
+        plt.imshow(imgUndist)
+        plt.show()
+
+    return imgUndist
 
 def runRemoveDistortion():
     camMatrix, distCoeff = calibrate(showPics = False)
-    removeDistortion(camMatrix, distCoeff)
+    imPath = 'imgs/lpImgs/lp3.jpeg'
+    removeDistortion(camMatrix, distCoeff, imPath, showpics=True)
 
 if __name__ == '__main__':
     #calibrate()  
