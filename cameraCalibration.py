@@ -5,7 +5,7 @@ import os
 import matplotlib.pyplot as plt
 
 def calibrate(showPics = True):
-    images = glob.glob('imgs/calibration3/*.jpeg')
+    images = glob.glob('imgs/calibration-borders/*.jpeg')
     cboardSize = (7, 7)#rows and columns
     framesize = (1600, 1200)
     criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
